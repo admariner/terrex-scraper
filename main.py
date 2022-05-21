@@ -23,17 +23,14 @@ def get_page_html(session, url):
 def get_page_html_test(session, url):
     # collect all the HTML we need until there are no more pages
     base_url = 'https://www.adidas.co.uk'
-    all_html = []
     resp = session.get(url)
-    all_html.append(resp.html)
-    return all_html
+    return [resp.html]
 
 
 def parse_product_codes(html):
     # get all the product codes from the page
     items = html.find('div.grid-item')
-    product_codes = [item.attrs['data-grid-id'] for item in items]
-    return product_codes
+    return [item.attrs['data-grid-id'] for item in items]
 
 
 def get_product_json(session, product_id):
@@ -49,13 +46,11 @@ def get_product_avail(session, product_id):
 
 
 def load_json_product_model(json_data):
-    product_model = Model(**json_data)
-    return product_model
+    return Model(**json_data)
 
 
 def load_json_availability_model(json_data):
-    product_model = Availability(**json_data)
-    return product_model
+    return Availability(**json_data)
 
 
 def main():
